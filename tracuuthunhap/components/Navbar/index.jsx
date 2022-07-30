@@ -7,7 +7,8 @@ import {
   AppstoreOutlined,
   SettingOutlined,
   LogoutOutlined,
-  AccountBookOutlined
+  AccountBookOutlined,
+  HomeOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import styles from './index.module.css'
@@ -27,13 +28,14 @@ const Navbar = (props) =>{
     };
   }
   const items = [
+    getItem(<Link href={'/'}><a onClick={() => router.push('/') }>Home</a></Link>, '1', <HomeOutlined />),
     getItem('Tra cứu', 'sub1', <AppstoreOutlined />, [
-      getItem(<Link href={'/thunhapthang'}><a onClick={() => router.push('/thunhapthang') }>Thu nhập tháng</a></Link>, '1', <AccountBookOutlined />),
-      getItem(<Link href={'/thuetncn'}><a onClick={() => router.push('/thuetncn') }>Thuế TNCN</a></Link>, '2', <VideoCameraOutlined />), 
+      getItem(<Link href={'/thunhapthang'}><a onClick={() => router.push('/thunhapthang') }>Thu nhập tháng</a></Link>, '2', <AccountBookOutlined />),
+      getItem(<Link href={'/thuetncn'}><a onClick={() => router.push('/thuetncn') }>Thuế TNCN</a></Link>, '3', <VideoCameraOutlined />), 
     ]),
     getItem('Cài đặt', 'sub2', <SettingOutlined  />, [
-      getItem(<Link href={'/changepassword'}><a onClick={() => router.push('/changepassword') }>Đổi mật khẩu</a></Link>, '3', <UserOutlined />),
-      getItem(<Link href={'/logout'}><a onClick={() => router.push('/logout') }>Đăng xuất</a></Link>, '4', <LogoutOutlined />), 
+      getItem(<Link href={'/changepassword'}><a onClick={() => router.push('/changepassword') }>Đổi mật khẩu</a></Link>, '4', <UserOutlined />),
+      getItem(<Link href={'/logout'}><a onClick={() => router.push('/logout') }>Đăng xuất</a></Link>, '5', <LogoutOutlined />), 
     ]),
   ];
 
@@ -43,8 +45,8 @@ const Navbar = (props) =>{
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={['sub1']}
-        defaultOpenKeys={['sub1']}
+        defaultSelectedKeys = {['1']}
+        defaultOpenKeys={['sub1', 'sub2']}
         items={items}
       />
   </Sider>

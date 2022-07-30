@@ -4,3 +4,10 @@
   flex: 1;
   justify-content: center;
 }
+
+
+@media only screen and (max-width: 420px) {
+  .footer a{
+    font-size: 12px;
+  }
+}

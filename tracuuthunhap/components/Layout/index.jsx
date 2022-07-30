@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { useRouter } from 'next/router'
 import HeaderApp from '../Header'
 import Navbar from "../Navbar";
@@ -10,12 +10,16 @@ const { Header, Content } = Layout;
 
 const LayoutApp = (props) => {
   const {children} = props
-
+  const [collapsed, setCollapsed] = useState(false);
+  
+  function toogleMenu(){
+    setCollapsed(!collapsed)
+  }
   return ( 
     <Layout>
-    <Navbar />
-    <Layout className="site-layout">
-        <HeaderApp />
+    <Navbar collapsed ={collapsed} />
+    <Layout className="site-layout" style={{width: "auto"}} >
+        <HeaderApp collapsed = {collapsed} onClickHandle = {toogleMenu} />
         <Content
           className="site-layout-background"
           style={{

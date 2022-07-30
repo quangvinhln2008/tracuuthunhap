@@ -5,3 +5,15 @@
   cursor: pointer;
   transition: color 0.3s;
 }
+
+.headerBreacrumb{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+@media only screen and (max-width: 420px) {
+  .headerBreadcrumbItem {
+    display: none;
+  }
+}

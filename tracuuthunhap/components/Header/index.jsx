@@ -1,15 +1,37 @@
-import React from "react";
+import React,  { useEffect, useState } from "react";
 import Head from 'next/head'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import {
   MenuFoldOutlined,
-  MenuUnfoldOutlined
+  MenuUnfoldOutlined,
+  UserOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
-import { Layout } from 'antd';
-const { Header, Content } = Layout;
-import Navbar from "../Navbar";
+
+import { Layout, Breadcrumb, Menu  } from 'antd';
+import styles from './index.module.css'
+const { Header } = Layout;
 
 const HeaderApp = (props) => {
-  const {collapsed} = props
+  const {collapsed, onClickHandle} = props
+  const router = useRouter()
+  const {pathname} = router
+  function getItem(label, key, icon, children) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+    };
+  }
+  const items = [
+    getItem('Xin chào, Nguyen Quang Vinh', 'sub1',null, [
+      getItem(<Link href={'/profile'}><a onClick={() => router.push('/profile') }>Trang cá nhân</a></Link>, '1', <UserOutlined />),
+      getItem(<Link href={'/logout'}><a onClick={() => router.push('/logout') }>Đăng xuất</a></Link>, '2', <LogoutOutlined />),
+    ])
+  ];
+
   return (
     <>
        <Head>
@@ -21,16 +43,45 @@ const HeaderApp = (props) => {
           className="site-layout-background"
           style={{
             padding:0,
-            background: '#fff'
+            background: '#fff',
+            display: "flex",
+            flexDirection:"row",
+            alignItems:"center",
+            justifyContent: "space-between"
           }}
         >
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            style:{padding: '0 24px',
-              fontSize: '18px',
-              lineHeight: '64px',
-              cursor: 'pointer'} ,
-            onClick: () => setCollapsed(!collapsed),
-          })}
+          <div className={styles.headerBreacrumb}>
+            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              style:{padding: '0 24px',
+                fontSize: '18px',
+                lineHeight: '64px',
+                cursor: 'pointer'} ,
+              onClick: ()=> onClickHandle(),
+            })}
+            {
+            <Breadcrumb className = {styles.headerBreadcrumbItem}>
+              <Breadcrumb.Item fontSize="18px">
+                <Link  href={'/'}>Home</Link>
+              </Breadcrumb.Item>
+              {pathname==='/thunhapthang' && <Breadcrumb.Item fontSize="18px">
+              Thu nhập tháng
+                </Breadcrumb.Item>
+              }
+              {pathname==='/thuetncn' && <Breadcrumb.Item fontSize="18px">
+                Thuế TNCN
+                  </Breadcrumb.Item>
+                }
+                {pathname==='/changepassword' && <Breadcrumb.Item fontSize="18px">
+                Đổi mật khẩu
+                  </Breadcrumb.Item>
+                }
+            </Breadcrumb>}
+          </div>
+          <div>
+          <Menu
+            items={items}
+          />
+          </div>
         </Header>
     </>
   );
