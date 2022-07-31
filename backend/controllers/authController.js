@@ -12,35 +12,32 @@ async function signin(req, res) {
           res.status(500).send({ message: err });
           return;
         }
-      if (!user) {
-          return res.status(404).send({ message: "User Not found." });
+      if (user.recordset.length===0) {
+      
+          return res.status(404).send({ message: "Tên đăng nhập không đúng." });
         }
         var passwordIsValid = helper.hashPassword(req.body.password);
 
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Mật khẩu không đúng!"
         });
       }
 
-      var token = jwt.sign({ id: user.email }, process.env.SECRET_KEY, {
-        expiresIn: 86400 // 24 hours
-      });
-
-      var authorities = [];
-
-      for (let i = 0; i < user?.roles?.length; i++) {
-        authorities.push("ROLE_" + user.roles[i].roleName.toUpperCase());
+      if(user.recordset.length!==0){
+        var token = jwt.sign({ id: user.email }, process.env.SECRET_KEY, {
+          expiresIn: 86400 // 24 hours
+        });
+  
+        res.status(200).send({
+          id: user.recordset[0]?.MEMBERID,
+          userName: user.recordset[0]?.MEMBERNAME,
+          email: user.recordset[0]?.EMAIL,
+          roles: user.recordset[0]?.ROLE.trim(),
+          accessToken: token
+        });
       }
-
-      res.status(200).send({
-        id: user._id,
-        userName: user.MEMBERNAME,
-        email: user.EMAIL,
-        roles: authorities,
-        accessToken: token
-      });
     })
   };
 

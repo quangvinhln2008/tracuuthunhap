@@ -19,7 +19,7 @@ const config = {
 const poolPromise = new sql.ConnectionPool(config)
   .connect()
   .then(pool => {
-    console.log('Server listening on port ' + port);
+    console.log('Connected to database');
     return pool
   })
   .catch(err => console.log('Database Connection Failed! Bad Config: ', err))
