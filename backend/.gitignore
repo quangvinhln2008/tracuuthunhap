@@ -1,0 +1,8 @@
+node_modules/
+package-lock.json
+.env
+public/uploads
+public/databaseBackup
+public/logs
+log/fileLogs
+.DS_Store
