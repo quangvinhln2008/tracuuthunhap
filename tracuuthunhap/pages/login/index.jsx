@@ -1,12 +1,53 @@
-import Ract from 'react'
+import React, {useState, useEffect} from 'react'
 import Head from 'next/head'
-import Icon, { LockOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Typography, Avatar  } from 'antd';
-const { Paragraph , Title } = Typography;
-import logo from '../../public/logo.jpg'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+import {VStack} from '@chakra-ui/react'
+import { Button, Checkbox, Form, Input, Typography, Alert  } from 'antd';
 import styles from './index.module.css'
 
-function Login() {
+const { Paragraph , Title } = Typography;
+
+const Login = () => {
+  const [userName, setUserName] = useState()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  const [statusCode, setStatusCode] = useState()
+  const [error,setError] = useState(false)
+  const [remember,setRemember] = useState(false)
+  const [errorText,setErrorText] = useState('')
+  const router = useRouter()
+
+  async function submitLogin(data){
+    return await axios
+    .post('http://localhost:3001/user/login', {email: data.email, password: data.password})
+    .then((res) => {
+      setEmail(data.email)
+      setPassword(data.password)
+      setUserName(res.data.userName)
+      setStatusCode(res.status)
+      setError(false)
+      if(data.remember){
+        window.localStorage.setItem('fullNameTracuu', res.data.userName)
+        window.localStorage.setItem('emailTracuu', data.email)
+        window.localStorage.setItem('passwordTracuu', data.password)
+        window.localStorage.setItem('rememberTracuu', JSON.stringify(data.remember))
+      }
+      
+      router.push('/thunhapthang')
+      return(result)
+    })
+    .catch(function (error) {
+      // handle error
+      setError(true)
+      setErrorText(error?.response?.data.message)
+    })
+  }
+  useEffect(() => {
+    // Prefetch the dashboard page
+    router.prefetch('/thunhapthang')
+  }, [])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -29,14 +70,14 @@ function Login() {
         </div>
         <Title level={2}>ĐĂNG NHẬP</Title>
         <Paragraph><b>HỆ THỐNG TRA CỨU THÔNG TIN THU NHẬP</b></Paragraph >
-        <div style={{marginTop: '2em'}}>
+        <VStack margin={"2em"} alignItems={"center"}>
           <Form
               name="basic"
               labelCol={{
-                span: 10,
+                span: 8,
               }}
               wrapperCol={{
-                span: 16,
+                span: 20,
               }}
               initialValues={{
                 remember: true,
@@ -44,14 +85,16 @@ function Login() {
               // onFinish={onFinish}
               // onFinishFailed={onFinishFailed}
               autoComplete="off"
+              onFinish={submitLogin}
             >
               <Form.Item
-                label="Tên đăng nhập: "
-                name="username"
+                label="Email: "
+                name="email"
                 rules={[
                   {
                     required: true,
-                    message: 'Vui lòng nhập tên đăng nhập!',
+                    message: 'Vui lòng nhập Email!',
+                    type:'email'
                   },
                 ]}
               >
@@ -79,7 +122,7 @@ function Login() {
                   span: 16,
                 }}
               >
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox>Nhớ mật khẩu</Checkbox>
               </Form.Item>
 
               <Form.Item
@@ -93,10 +136,14 @@ function Login() {
                 </Button>
               </Form.Item>
             </Form>
-          </div>
+          </VStack>
         </section>
       </main>
-      
+      {error && <Alert
+        message="Lỗi đăng nhập"
+        description={errorText}
+        type={error ? "error": 'success'}
+      />}
       <footer className={styles.footer}>
         <a
           href="https://phongcntt.ufm.edu.vn/"
@@ -105,7 +152,7 @@ function Login() {
         >
           Coppyright by:{' '} © 2022 Phòng Công nghệ thông tin
         </a>
-        </footer>
+      </footer>
     </div>
    );
 }

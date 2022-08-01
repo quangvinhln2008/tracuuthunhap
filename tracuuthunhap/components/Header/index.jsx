@@ -17,6 +17,9 @@ const HeaderApp = (props) => {
   const {collapsed, onClickHandle} = props
   const router = useRouter()
   const {pathname} = router
+  const userName = window.localStorage.getItem('fullNameTracuu')
+
+
   function getItem(label, key, icon, children) {
     return {
       key,
@@ -25,10 +28,22 @@ const HeaderApp = (props) => {
       label,
     };
   }
+  function logout(){
+    const isRememberMe = window.localStorage.getItem('rememberTracuu')
+    if (isRememberMe === 'true') {
+      window.localStorage.removeItem('passwordTracuu')
+      window.localStorage.removeItem('emailTracuu')
+      window.localStorage.removeItem('fullNameTracuu')
+      window.localStorage.removeItem('emailTracuu')
+    } else {
+      window.localStorage.clear()
+    }
+    router.push('/login')
+  }
   const items = [
-    getItem('Xin chào, Nguyen Quang Vinh', 'sub1',null, [
+    getItem(`Xin chào, ${userName}`, 'sub1',null, [
       getItem(<Link href={'/profile'}><a onClick={() => router.push('/profile') }>Trang cá nhân</a></Link>, '1', <UserOutlined />),
-      getItem(<Link href={'/logout'}><a onClick={() => router.push('/logout') }>Đăng xuất</a></Link>, '2', <LogoutOutlined />),
+      getItem(<a onClick={logout}>Đăng xuất</a>, '2', <LogoutOutlined />),
     ])
   ];
 

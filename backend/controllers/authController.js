@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 async function signin(req, res) {
     const email = req.body.email
+    const password = req.body.password
     const pool = await poolPromise
     await pool.request()
     .input('EMAIL', sql.VarChar, email)
@@ -16,7 +17,8 @@ async function signin(req, res) {
       
           return res.status(404).send({ message: "Tên đăng nhập không đúng." });
         }
-        var passwordIsValid = helper.hashPassword(req.body.password);
+      
+      var passwordIsValid = helper.hashPassword(req.body.password);
 
       if (!passwordIsValid) {
         return res.status(401).send({
@@ -24,9 +26,9 @@ async function signin(req, res) {
           message: "Mật khẩu không đúng!"
         });
       }
-
+      // res.status(200).send(user)
       if(user.recordset.length!==0){
-        var token = jwt.sign({ id: user.email }, process.env.SECRET_KEY, {
+        var token = jwt.sign({ id: user?.recordset[0]?.EMAIL}, 'tracuu', {
           expiresIn: 86400 // 24 hours
         });
   
