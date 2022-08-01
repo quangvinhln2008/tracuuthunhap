@@ -6,7 +6,7 @@ const ItemDetail = (props) =>{
   return ( 
     <>
       <HStack marginTop={2} padding={2} borderBottom={"1px solid #CBD5E0"} alignItems={"center"} justifyContent="space-between">
-        <Text noOfLines={2}>{item?.TenThuocTinh}</Text>
+        <Text width={"80%"} noOfLines={2}>{item?.TenThuocTinh}</Text>
         <Text>{Number(item?.GIATRITHUOCTINH).toLocaleString('pl-PL')}</Text>
       </HStack>
     </>

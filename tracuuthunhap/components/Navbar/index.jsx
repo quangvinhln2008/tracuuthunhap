@@ -19,6 +19,19 @@ const Navbar = (props) =>{
   const {collapsed} = props
   const router = useRouter()
 
+  function logout(){
+    const isRememberMe = window.localStorage.getItem('rememberTracuu')
+    if (isRememberMe === 'true') {
+      window.localStorage.removeItem('passwordTracuu')
+      window.localStorage.removeItem('emailTracuu')
+      window.localStorage.removeItem('fullNameTracuu')
+      window.localStorage.removeItem('emailTracuu')
+    } else {
+      window.localStorage.clear()
+    }
+    router.push('/login')
+  }
+
   function getItem(label, key, icon, children) {
     return {
       key,
@@ -34,14 +47,22 @@ const Navbar = (props) =>{
       getItem(<Link href={'/thuetncn'}><a onClick={() => router.push('/thuetncn') }>Thuế TNCN</a></Link>, '3', <VideoCameraOutlined />), 
     ]),
     getItem('Cài đặt', 'sub2', <SettingOutlined  />, [
-      getItem(<Link href={'/changepassword'}><a onClick={() => router.push('/changepassword') }>Đổi mật khẩu</a></Link>, '4', <UserOutlined />),
-      getItem(<Link href={'/logout'}><a onClick={() => router.push('/logout') }>Đăng xuất</a></Link>, '5', <LogoutOutlined />), 
+      getItem(<Link href={'/profile'}><a onClick={() => router.push('/profile') }>Trang cá nhân</a></Link>, '4', <UserOutlined />),
+      getItem(<a onClick={logout }>Đăng xuất</a>, '5', <LogoutOutlined />), 
     ]),
   ];
 
   return(
     <Sider trigger={null} collapsible collapsed={collapsed}>
-      <div className={styles.logo} />
+      <div className={styles.logo}>
+        <a
+            href="https://ufm.edu.vn/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+          <img src='./logo4.png'/>
+        </a>
+        </div>
       <Menu
         theme="dark"
         mode="inline"

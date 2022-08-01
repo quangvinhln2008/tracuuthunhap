@@ -24,7 +24,7 @@ const LayoutApp = (props) => {
           className="site-layout-background"
           style={{
             margin: '24px 16px',
-            padding: 24,
+            padding: 20,
             minHeight: 280,
             background:'#fff'
           }}
