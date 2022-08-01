@@ -98,13 +98,13 @@ function Login() {
       </main>
       
       <footer className={styles.footer}>
-          <a
-            href="https://phongkhtc.ufm.edu.vn/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by:{' '} © 2022 Phòng Kế hoạch - Tài chính
-          </a>
+        <a
+          href="https://phongcntt.ufm.edu.vn/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Coppyright by:{' '} © 2022 Phòng Công nghệ thông tin
+        </a>
         </footer>
     </div>
    );

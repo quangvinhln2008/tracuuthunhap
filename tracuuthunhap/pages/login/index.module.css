@@ -1,5 +1,4 @@
 .loginSection{
-  min-height: 18rem ;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -16,11 +15,11 @@
 
 .container {
   padding: 0 1rem;
-  background: #005395
+  background: #005395;
+  height: 100%;
 }
 
 .main {
-  min-height: 18em;
   padding: 1.5rem 0;
   flex: 1;
   display: flex;

@@ -16,9 +16,9 @@ const LayoutApp = (props) => {
     setCollapsed(!collapsed)
   }
   return ( 
-    <Layout>
+    <Layout style={{height: "100%"}} >
     <Navbar collapsed ={collapsed} />
-    <Layout className="site-layout" style={{width: "auto"}} >
+    <Layout className="site-layout" style={{width: "auto", minHeight:"667px"}} >
         <HeaderApp collapsed = {collapsed} onClickHandle = {toogleMenu} />
         <Content
           className="site-layout-background"

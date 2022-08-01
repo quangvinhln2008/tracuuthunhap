@@ -1,0 +1,12 @@
+.inputNam{
+  width: 5em;
+}
+
+.wrapList {
+  justify-content: center
+}
+@media only screen and (max-width: 420px) {
+  .inputNam {
+    width: 5em;
+  }
+}
