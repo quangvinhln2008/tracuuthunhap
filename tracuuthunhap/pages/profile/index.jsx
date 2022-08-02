@@ -256,7 +256,7 @@ const Profile = (props) =>{
               },
             ]}
           >
-            <Input />
+            <Input  readOnly/>
           </Form.Item>
           <HStack justifyContent="end">
             <Button key="back" onClick={toogleModalFormChangeEmail}>Thoát</Button>
@@ -295,6 +295,10 @@ const Profile = (props) =>{
               {
                 required: true,
                 message: 'Vui lòng nhập số điện thoại!'
+              },
+              {
+                required: true,
+                message: 'Vui lòng nhập Email!'
               },
             ]}
           >

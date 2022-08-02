@@ -14,9 +14,14 @@ const ThuNhapThang = () =>{
   const [thangBK, setThangBK] = useState()
   const [namBK, setNamBK] = useState()
   const [loading, setLoading] = useState(false);
+  const [maNV, setMaNV] = useState('')
   const today = new Date();
   const defaultYear = today.getFullYear()
   const defaultMonth = today.getMonth()
+  
+  useEffect(()=>{
+    setMaNV(window.localStorage.getItem('idTracuu'))
+  }, [])
 
   function handleChangeThang (value)  {
     setThangBK(value)
@@ -42,7 +47,7 @@ const ThuNhapThang = () =>{
 
   async function loadThuNhapThang(){
     return await axios
-      .post('http://localhost:3001/thunhapthang', {manv: '1277', thangBK :thangBK, namBK: namBK})
+      .post('http://localhost:3001/thunhapthang', {manv: maNV, thangBK :thangBK, namBK: namBK})
       .then((res) => {
         const result = {
           status: res.data.status,

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from 'next/link'
+import {Text} from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import {
   UserOutlined,
@@ -63,7 +64,7 @@ const Navbar = (props) =>{
           >
           <img src='./logo4.png'/>
         </a>
-        </div>
+      </div>
       <Menu
         theme="dark"
         mode="inline"
@@ -71,6 +72,9 @@ const Navbar = (props) =>{
         defaultOpenKeys={['sub1', 'sub2']}
         items={items}
       />
+      <div className={styles.version}>
+        <Text>Version: 1.0.0</Text>
+      </div>
   </Sider>
   )
 }
