@@ -12,6 +12,7 @@ import styles from './index.module.css'
 const Profile = (props) =>{
   const [openModal, setOpenModal] = useState(false)
   const [openModalChangeEmail, setOpenModalChangeEmail] = useState(false)
+  const [openModalChangePhone, setOpenModalChangePhone] = useState(false)
   const [data, setData] = useState()
   const [rToken, setrToken] = useState()
   const [emailField, setEmailField] = useState([
@@ -35,6 +36,10 @@ const Profile = (props) =>{
     setOpenModalChangeEmail(!openModalChangeEmail)
   }
 
+  function toogleModalFormChangePhone(){
+    setOpenModalChangePhone(!openModalChangePhone)
+  }
+
   useEffect(()=>{
     loadProfile()
     setrToken(token)
@@ -47,6 +52,7 @@ const Profile = (props) =>{
       window.localStorage.removeItem('emailTracuu')
       window.localStorage.removeItem('fullNameTracuu')
       window.localStorage.removeItem('emailTracuu')
+      window.localStorage.removeItem('rTokenTracuu')
     } else {
       window.localStorage.clear()
     }
@@ -116,6 +122,24 @@ const Profile = (props) =>{
     })
   }
 
+  async function submitChangePhone(data){
+    return await axios
+    .post('http://localhost:3001/user/changePhone', {token: rToken, phoneNew: data.phoneNew })
+    .then((res) => {
+      toast.success('Cập nhật điện thoại thành công!')
+      setOpenModalChangePhone(!openModalChangePhone)
+      window.location.reload()
+      const result = {
+        status: res.data.status,
+        data: res.data.message,
+      }
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error.response)
+    })
+  }
+
   return(
     <>
       <Head>
@@ -129,7 +153,7 @@ const Profile = (props) =>{
             <Descriptions.Item label="Mã nhân viên"><strong>{data?.MANV}</strong></Descriptions.Item>
             <Descriptions.Item label="Họ và Tên"><strong>{data?.HOTEN}</strong></Descriptions.Item>
             <Descriptions.Item label="Đơn vị"><strong>{data?.TENDONVI}</strong></Descriptions.Item>
-            <Descriptions.Item label="Điện thoại"><strong>{data?.DIENTHOAINV}</strong></Descriptions.Item>
+            <Descriptions.Item label="Điện thoại"><strong>{data?.DIENTHOAINV}</strong>{'    '}<Button onClick={toogleModalFormChangePhone} type="link">Cập nhật điện thoại</Button></Descriptions.Item>
             <Descriptions.Item label="Email"><strong>{data?.EMAILNV}</strong>{'    '}<Button onClick={toogleModalFormChangeEmail} type="link">Cập nhật email</Button></Descriptions.Item>
           </Descriptions>
           <Button type="primary" onClick={toogleModalForm}>Đổi mật khẩu</Button>
@@ -213,17 +237,6 @@ const Profile = (props) =>{
           <Form.Item
             label="Email hiện tại: "
             name="email"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: 'Vui lòng nhập đúng định dạng Email!',
-            //     type:'email'
-            //   },
-            //   {
-            //     required: true,
-            //     message: 'Vui lòng nhập Email!'
-            //   },
-            // ]}
           >
             <Input  readOnly/>
           </Form.Item>
@@ -248,6 +261,48 @@ const Profile = (props) =>{
           <HStack justifyContent="end">
             <Button key="back" onClick={toogleModalFormChangeEmail}>Thoát</Button>
             <Button type="primary"  htmlType="submit" onClick={submitChangeEmail} danger>Cập nhật</Button>
+          </HStack>
+        </Form>
+      </Modal>
+
+      {/* Modal đổi điện thoại */}
+      <Modal
+        visible={openModalChangePhone}
+        title="Cập nhật điện thoại"
+        // onOk={submitChangeEmail}
+        onCancel={toogleModalFormChangePhone}
+        footer={null}
+      >
+      <Form
+          name="basic"
+          fields={emailField}
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 20,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
+          onFinish={submitChangePhone}
+        >
+          <Form.Item
+            label="Số điện thoại mới: "
+            name="phoneNew"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập số điện thoại!'
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <HStack justifyContent="end">
+            <Button key="back" onClick={toogleModalFormChangePhone}>Thoát</Button>
+            <Button type="primary"  htmlType="submit" onClick={submitChangeEmail}>Cập nhật</Button>
           </HStack>
         </Form>
     

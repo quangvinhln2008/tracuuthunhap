@@ -5,6 +5,7 @@ import { Button, Select, Space, Input  } from 'antd';
 import {HStack, VStack, Wrap, Text} from  '@chakra-ui/react';
 import Item from "../../components/Item";
 import styles from './index.module.css'
+import ItemAll from "../../components/Item/ItemAll";
 const { Option } = Select;
 
 
@@ -47,7 +48,7 @@ const ThuNhapThang = () =>{
           status: res.data.status,
           data: res.data.result.recordset,
         }
-        setData(res.data.result.recordset)
+        setData(res.data.result.recordsets)
         return(result)
       })
       .catch(function (error) {
@@ -89,10 +90,13 @@ const ThuNhapThang = () =>{
           </HStack>
           <Button type="primary" onClick={loadThuNhapThang}>Lọc dữ liệu</Button>  
         </HStack>
-        {data  &&
+        {data?.length === 1 ?
           (<Wrap justify='center'>
-            <Item loading ={loading} thang ={thangBK} nam ={namBK} data ={data} />
+            <Item loading ={loading} thang ={thangBK} nam ={namBK} data ={data[0]} />
           </Wrap>)
+          :(
+            <ItemAll loading ={loading} nam ={namBK} data ={data} />
+          )
           }
       </VStack>
     </> 

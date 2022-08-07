@@ -118,11 +118,39 @@ async function signin(req, res) {
           });
         });
   }
+
+  async function changePhone(req, res){
+    const pool = await poolPromise
+    const token = req.body.token
+    const phoneNew = req.body.phoneNew
+
+    var manv
+    jwt.verify(token, 'tracuu', (err, decoded) => {
+      if (err) {
+        return res.status(401).send({ message: "Unauthorized!" });
+      }
+      manv = decoded.manv;
+    });
+
+    await pool.request()
+      .input('MANV',  manv)
+      .input('NEWPHONE',  phoneNew)
+      .execute('sp_ChangePhone', (err, result)=>{
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          res.status(200).send({
+            result
+          });
+        });
+  }
   
 
   module.exports = {
     signin,
     profile,
     changePassword,
-    changeEmail
+    changeEmail,
+    changePhone
   }

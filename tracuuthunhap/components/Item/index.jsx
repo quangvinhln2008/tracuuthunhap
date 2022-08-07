@@ -7,7 +7,7 @@ const Item =(props)=>{
   const {data, thang, nam, loading} = props
   const [newData, setNewData] = useState()
   const [toogleLoadMore, setToogleLoadMore] = useState(true) 
-  console.log('data', data)
+  console.log('data item', data)
   useEffect(()=>{
     setNewData(data?.slice(0,5));
     setToogleLoadMore(true)
@@ -25,7 +25,7 @@ const Item =(props)=>{
   return(
     <>
       {
-      data.length === 0 ?
+      data?.length === 0 ?
       (
         <Skeleton loading={loading}>
           <Empty description={

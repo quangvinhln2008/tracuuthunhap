@@ -39,6 +39,7 @@ const HeaderApp = (props) => {
       window.localStorage.removeItem('emailTracuu')
       window.localStorage.removeItem('fullNameTracuu')
       window.localStorage.removeItem('emailTracuu')
+      window.localStorage.removeItem('rTokenTracuu')
     } else {
       window.localStorage.clear()
     }
