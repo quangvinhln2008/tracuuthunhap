@@ -25,7 +25,7 @@ export default function Home() {
       <div className={styles.container}>
         <Head>
           <title>Tra cứu thu nhập</title>
-          <meta name="description" content="Tra cuu thu nhap" />
+          <meta name="description" content="Tra cứu thu nhập" />
           <link rel="icon" href="/favicon-16x16.png" />
         </Head>
         

@@ -8,7 +8,7 @@ async function signin(req, res) {
   const pool = await poolPromise
   await pool.request()
   .input('EMAIL', sql.VarChar, email)
-  .query('SELECT * FROM MEMBER WHERE EMAIL = @EMAIL', (err, user)=>{
+  .query('SELECT * FROM MEMBER WHERE EMAIL = @EMAIL OR MEMBERID = @EMAIL', (err, user)=>{
     if (err) {
         res.status(500).send({ message: err });
         return;

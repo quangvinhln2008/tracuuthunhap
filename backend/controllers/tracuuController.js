@@ -19,6 +19,31 @@ async function tracuuthunhapthang(req, res){
         });
       });
 }
+async function contact(req, res){
+  const pool = await poolPromise
+  const manv = req.body.manv
+  const tennv = req.body.tennv
+  const donvi = req.body.donvi
+  const email = req.body.email
+  const phone = req.body.phone
+  const decription = req.body.decription
+  await pool.request()
+    .input('MANV',  manv)
+    .input('TENNV', tennv)
+    .input('DONVI', donvi)
+    .input('EMAIL', email)
+    .input('PHONE', phone)
+    .input('DECRIPTION', decription)
+    .execute('sp_contact', (err, result)=>{
+      if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+        res.status(200).send({
+          result
+        });
+      });
+}
 
 async function tracuuthuetncn(req, res){
 
@@ -26,5 +51,6 @@ async function tracuuthuetncn(req, res){
 
 module.exports = {
   tracuuthunhapthang,
-  tracuuthuetncn
+  tracuuthuetncn,
+  contact
 } 

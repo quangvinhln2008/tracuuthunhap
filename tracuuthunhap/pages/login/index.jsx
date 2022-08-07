@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import {HStack, VStack} from '@chakra-ui/react'
-import { Button, Checkbox, Form, Input, Typography, Alert  } from 'antd';
+import { Button, Checkbox, Form, Input, Typography, Modal, Text, Select  } from 'antd';
 import styles from './index.module.css'
 import { ToastContainer } from 'react-toastify'
 import ClientCaptcha from "react-client-captcha"
@@ -21,11 +21,32 @@ const Login = () => {
   const [remember,setRemember] = useState(false)
   const [errorText,setErrorText] = useState('')
   const [captcha, setCaptcha] =useState('')
+  const [openModalContact, setOpenModalContact] = useState(false)
   const router = useRouter()
 
   function createCaptcha(captchaCode){
     setCaptcha(captchaCode)
   }
+  function toogleModalFormContact(){
+    setOpenModalContact(!openModalContact)
+  }
+  async function submitContact(data){
+    return await axios
+    .post('http://localhost:3001/contact', {manv: data.manv, tennv: data.tennv, donvi: data.donvi, email: data.email, phone: data.phone, decription: data.decription })
+    .then((res) => {
+      toast.success('Gửi yêu cầu thành công')
+      setOpenModalContact(!openModalContact)
+      const result = {
+        status: res.data.status,
+        data: res.data.message,
+      }
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error.response)
+    })
+  }
+
   async function submitLogin(data){
     if(data.capchaText === captcha){
       return await axios
@@ -97,13 +118,13 @@ const Login = () => {
               onFinish={submitLogin}
             >
               <Form.Item
-                label="Email: "
+                label="Tài khoản: "
+                placeholder="Mã nhân sự hoặc email"
                 name="email"
                 rules={[
                   {
                     required: true,
-                    message: 'Vui lòng nhập Email!',
-                    type:'email'
+                    message: 'Vui lòng nhập tài khoản!',
                   },
                 ]}
               >
@@ -151,6 +172,7 @@ const Login = () => {
                 <Button type="primary" block htmlType="submit">
                   Đăng nhập
                 </Button>
+                <Button onClick={toogleModalFormContact} type="link">Liên hệ kỹ thuật</Button>
               </VStack>
             </Form>
           </VStack>
@@ -165,6 +187,130 @@ const Login = () => {
           Coppyright by:{' '} © 2022 Phòng Công nghệ thông tin
         </a>
       </footer>
+      {/* Modal thông tin kỹ thuật */}
+      <Modal
+        visible={openModalContact}
+        title="Gửi yêu cầu hỗ trợ kỹ thuật"
+        // onOk={submitChangeEmail}
+        onCancel={toogleModalFormContact}
+        footer={null}
+      >
+      <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 20,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
+          onFinish={submitContact}
+        >
+          <Form.Item
+            label="Mã nhân sự: "
+            name="manv"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập mã nhân sự!'
+              },
+            ]}
+          >
+          <Input  />
+          </Form.Item>
+          <Form.Item
+            label="Họ tên: "
+            name="tennv"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập họ và tên!'
+              },
+            ]}
+          >
+          <Input  />
+          </Form.Item>
+            <Form.Item name="donvi" label="Đơn vị:">
+              <Select>
+                <Select.Option value="Ban Giám hiệu">Ban Giám hiệu</Select.Option>
+                <Select.Option value="Khoa Quản trị Kinh doanh">Khoa Quản trị Kinh doanh</Select.Option>
+                <Select.Option value="Khoa Marketing">Khoa Marketing</Select.Option>
+                <Select.Option value="Khoa Công nghệ thông tin">Khoa Công nghệ thông tin</Select.Option>
+                <Select.Option value="Khoa Thương mại">Khoa Thương mại</Select.Option>
+                <Select.Option value="Khoa Du lịch">Khoa Du lịch</Select.Option>
+                <Select.Option value="Khoa Kế toán - Kiểm toán">Khoa Kế toán - Kiểm toán</Select.Option>
+                <Select.Option value="Khoa Tài chính - Ngân hàng">Khoa Tài chính - Ngân hàng</Select.Option>
+                <Select.Option value="Khoa Thuế - Hải quan">Khoa Thuế - Hải quan</Select.Option>
+                <Select.Option value="Khoa Ngoại ngữ">Khoa Ngoại ngữ</Select.Option>
+                <Select.Option value="Khoa Kinh tế - Luật">Khoa Kinh tế - Luật</Select.Option>
+                <Select.Option value="Khoa GDQPAN-GDTC">Khoa GDQPAN-GDTC</Select.Option>
+                <Select.Option value="Viện Đào tạo Thường xuyên">Viện Đào tạo Thường xuyên</Select.Option>
+                <Select.Option value="Viện Đào tạo sau Đại học">Viện Đào tạo sau Đại học</Select.Option>
+                <Select.Option value="Phòng Tổ chức - Hành chính">Phòng Tổ chức - Hành chính</Select.Option>
+                <Select.Option value="Phòng Quản lý đào tạo">Phòng Quản lý đào tạo</Select.Option>
+                <Select.Option value="Phòng Quản trị thiết bị">Phòng Quản trị thiết bị</Select.Option>
+                <Select.Option value="Phòng Công tác Sinh viên">Phòng Công tác Sinh viên</Select.Option>
+                <Select.Option value="Phòng khảo thí - QLCL">Phòng khảo thí - QLCL</Select.Option>
+                <Select.Option value="Phòng Quản lý khoa học">Phòng Quản lý khoa học</Select.Option>
+                <Select.Option value="Phòng Thanh tra Đào tạo">Phòng Thanh tra Đào tạo</Select.Option>
+                <Select.Option value="Thư viện">Thư viện</Select.Option>
+                <Select.Option value="Trạm Y tế">Trạm Y tế</Select.Option>
+                <Select.Option value="Phòng Công nghệ thông tin">Phòng Công nghệ thông tin</Select.Option>
+                <Select.Option value="Trung tâm tuyển sinh & quan hệ DN">Trung tâm tuyển sinh & quan hệ DN</Select.Option>
+                <Select.Option value="Viện Đào tạo Quốc tế">Viện Đào tạo Quốc tế</Select.Option>
+                <Select.Option value="Trung tâm Ngoại ngữ - Tin học">Trung tâm Ngoại ngữ - Tin học</Select.Option>
+                <Select.Option value="Viện Nghiên cứu Kinh tế Ứng dụng">Viện Nghiên cứu Kinh tế Ứng dụng</Select.Option>
+                <Select.Option value="Khoa Thẩm định giá - KDBĐS">Khoa Thẩm định giá - KDBĐS</Select.Option>
+                <Select.Option value="Trung tâm Bồi dưỡng và tư vấn TCHQ">Trung tâm Bồi dưỡng và tư vấn TCHQ</Select.Option>
+                <Select.Option value="Trung tâm dịch vụ KTX">Trung tâm dịch vụ KTX</Select.Option>
+                <Select.Option value="Khoa Lý luận Chính trị">Khoa Lý luận Chính trị</Select.Option>
+              </Select>
+          </Form.Item>
+          <Form.Item
+            label="Email liên hệ: "
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập Email!'
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Điện thoại liên hệ: "
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập số điện thoại!'
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Lý do: "
+            name="decription"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập lý do'
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <HStack justifyContent="end">
+            <Button key="back" onClick={toogleModalFormContact}>Thoát</Button>
+            <Button type="primary"  htmlType="submit">Gửi yêu cầu</Button>
+          </HStack>
+        </Form>
+      </Modal>
       <ToastContainer />
     </div>
    );
