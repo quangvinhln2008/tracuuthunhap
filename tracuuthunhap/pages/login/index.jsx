@@ -36,9 +36,12 @@ const Login = () => {
         setUserName(res.data.userName)
         setStatusCode(res.status)
         if(data.remember){
+          window.localStorage.setItem('idTracuu', res.data.id)
           window.localStorage.setItem('fullNameTracuu', res.data.userName)
+          window.localStorage.setItem('rTokenTracuu', res.data.accessToken)
           window.localStorage.setItem('emailTracuu', data.email)
           window.localStorage.setItem('passwordTracuu', data.password)
+          window.localStorage.setItem('rememberTracuu', JSON.stringify(data.remember))
           window.localStorage.setItem('rememberTracuu', JSON.stringify(data.remember))
         }
         
@@ -47,7 +50,7 @@ const Login = () => {
       })
       .catch(function (error) {
         // handle error
-        toast.error(error?.response?.data.message)
+        toast.error(error?.response?.data?.message)
       })
     }else{
       toast.error('Vui lòng nhập lại mã Captcha.')

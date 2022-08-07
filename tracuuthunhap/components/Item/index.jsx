@@ -10,6 +10,7 @@ const Item =(props)=>{
   console.log('data', data)
   useEffect(()=>{
     setNewData(data?.slice(0,5));
+    setToogleLoadMore(true)
   },[data])
 
   function loadMore(){
