@@ -1,16 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import {VStack} from '@chakra-ui/react'
+import {HStack, VStack} from '@chakra-ui/react'
 import { Button, Checkbox, Form, Input, Typography, Alert  } from 'antd';
 import styles from './index.module.css'
 import { ToastContainer } from 'react-toastify'
+import ClientCaptcha from "react-client-captcha"
+import "react-client-captcha/dist/index.css"
 import 'react-toastify/dist/ReactToastify.css'
 
 const { Paragraph , Title } = Typography;
-
 const Login = () => {
   const [userName, setUserName] = useState()
   const [email, setEmail] = useState()
@@ -19,34 +20,41 @@ const Login = () => {
   const [error,setError] = useState(false)
   const [remember,setRemember] = useState(false)
   const [errorText,setErrorText] = useState('')
+  const [captcha, setCaptcha] =useState('')
   const router = useRouter()
 
+  function createCaptcha(captchaCode){
+    setCaptcha(captchaCode)
+  }
   async function submitLogin(data){
-    return await axios
-    .post('http://localhost:3001/user/login', {email: data.email, password: data.password})
-    .then((res) => {
-      setEmail(data.email)
-      setPassword(data.password)
-      setUserName(res.data.userName)
-      setStatusCode(res.status)
-      if(data.remember){
-        window.localStorage.setItem('fullNameTracuu', res.data.userName)
-        window.localStorage.setItem('emailTracuu', data.email)
-        window.localStorage.setItem('passwordTracuu', data.password)
-        window.localStorage.setItem('rememberTracuu', JSON.stringify(data.remember))
-      }
-      
-      router.push('/thunhapthang')
-      return(result)
-    })
-    .catch(function (error) {
-      // handle error
-      toast.error(error?.response?.data.message)
-    })
+    if(data.capchaText === captcha){
+      return await axios
+      .post('http://localhost:3001/user/login', {email: data.email, password: data.password})
+      .then((res) => {
+        setEmail(data.email)
+        setPassword(data.password)
+        setUserName(res.data.userName)
+        setStatusCode(res.status)
+        if(data.remember){
+          window.localStorage.setItem('fullNameTracuu', res.data.userName)
+          window.localStorage.setItem('emailTracuu', data.email)
+          window.localStorage.setItem('passwordTracuu', data.password)
+          window.localStorage.setItem('rememberTracuu', JSON.stringify(data.remember))
+        }
+        
+        router.push('/thunhapthang')
+        return(result)
+      })
+      .catch(function (error) {
+        // handle error
+        toast.error(error?.response?.data.message)
+      })
+    }else{
+      toast.error('Vui lòng nhập lại mã Captcha.')
+    }
+    
   }
   useEffect(() => {
-    // Prefetch the dashboard page
-    router.prefetch('/thunhapthang')
   }, [])
 
   return (
@@ -112,7 +120,20 @@ const Login = () => {
               >
                 <Input.Password />
               </Form.Item>
-
+              <HStack alignItems={'start'}>
+              <Form.Item
+                name="capchaText"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui lòng nhập mã Capcha!',
+                  },
+                ]}
+              >
+                <Input placeholder='Nhập mã Capcha' />
+              </Form.Item>
+              <ClientCaptcha captchaCode ={createCaptcha} />
+              </HStack>
               <Form.Item
                 name="remember"
                 valuePropName="checked"
