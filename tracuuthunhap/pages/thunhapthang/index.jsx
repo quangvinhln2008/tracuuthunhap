@@ -97,7 +97,7 @@ const ThuNhapThang = () =>{
         </HStack>
         {data?.length === 1 ?
           (<Wrap justify='center'>
-            <Item loading ={loading} thang ={thangBK} nam ={namBK} data ={data[0]} />
+            <Item title ={`Thu nhập tháng ${thangBK} năm ${namBK}`} loading ={loading} thang ={thangBK} nam ={namBK} data ={data[0]} />
           </Wrap>)
           :(
             <ItemAll loading ={loading} nam ={namBK} data ={data} />

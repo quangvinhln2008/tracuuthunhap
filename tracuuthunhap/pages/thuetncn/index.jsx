@@ -10,6 +10,7 @@ const { Option } = Select;
 
 const ThueTNCN = () =>{
   const [data, setData] = useState()
+  const [maNV, setMaNV] = useState('')
   const [namBK, setNamBK] = useState()
   const [loading, setLoading] = useState(false);
   const today = new Date();
@@ -19,6 +20,9 @@ const ThueTNCN = () =>{
     setNamBK(defaultYear)
   }, [defaultYear])
   
+  useEffect(()=>{
+    setMaNV(window.localStorage.getItem('idTracuu'))
+  }, [])
 
   function handleChangeName (event)  {
     setNamBK(event.target.value)
@@ -26,7 +30,7 @@ const ThueTNCN = () =>{
 
   async function loadThuNhapThang(){
     return await axios
-      .post('http://localhost:3001/thunhapthang', {manv: '1277', thangBK :'2', namBK: namBK})
+      .post('http://localhost:3001/thuetncn', {manv: maNV, namBK: namBK})
       .then((res) => {
         const result = {
           status: res.data.status,
@@ -43,12 +47,12 @@ const ThueTNCN = () =>{
   return(
     <>
       <Head>
-        <title>Tra cứu Thuế thu nhập cá nhân</title>
-        <meta name="description" content="tra cuu thue tncn" />
+        <title>Tra cứu Quyết toán thuế TNCN</title>
+        <meta name="description" content="Quyết toán thuế TNCN năm" />
         <link rel="icon" href="/favicon-16x16.png" />
       </Head>
       <VStack>
-        <Text fontSize={"2xl"} fontWeight="bold" marginBottom={"2rem"} color ={"#38b2ac"}>Tra cứu Thuế thu nhập cá nhân</Text>
+        <Text fontSize={"2xl"} fontWeight="bold" marginBottom={"2rem"} color ={"#38b2ac"}>Tra cứu Quyết toán thuế TNCN</Text>
         <HStack style ={{marginBottom:"1rem !important"}} alignItems={"center"} spacing={10}>
           <HStack>
             <Text>Năm:</Text>
@@ -56,9 +60,9 @@ const ThueTNCN = () =>{
           </HStack>
           <Button type="primary" onClick={loadThuNhapThang}>Lọc dữ liệu</Button>  
         </HStack>
-        {data  &&
+        {data &&
           (<Wrap justify='center'>
-            <Item loading ={loading} thang ={thangBK} nam ={namBK} data ={data} />
+            <Item title ={`Quyết toán thuế năm ${namBK}`} loading ={loading} nam ={namBK} data ={data} />
           </Wrap>)
           }
       </VStack>

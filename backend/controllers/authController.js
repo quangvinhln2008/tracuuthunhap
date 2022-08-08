@@ -8,7 +8,7 @@ async function signin(req, res) {
   const pool = await poolPromise
   await pool.request()
   .input('EMAIL', sql.VarChar, email)
-  .query('SELECT * FROM MEMBER WHERE EMAIL = @EMAIL OR MEMBERID = @EMAIL', (err, user)=>{
+  .query('SELECT * FROM MEMBER WHERE ID = @EMAIL', (err, user)=>{
     if (err) {
         res.status(500).send({ message: err });
         return;
@@ -118,6 +118,32 @@ async function signin(req, res) {
           });
         });
   }
+  async function changeId(req, res){
+    const pool = await poolPromise
+    const token = req.body.token
+    const idNew = req.body.idNew
+
+    var manv
+    jwt.verify(token, 'tracuu', (err, decoded) => {
+      if (err) {
+        return res.status(401).send({ message: "Unauthorized!" });
+      }
+      manv = decoded.manv;
+    });
+
+    await pool.request()
+      .input('MANV',  manv)
+      .input('NEWID',  idNew)
+      .execute('sp_ChangeId', (err, result)=>{
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          res.status(200).send({
+            result
+          });
+        });
+  }
 
   async function changePhone(req, res){
     const pool = await poolPromise
@@ -152,5 +178,6 @@ async function signin(req, res) {
     profile,
     changePassword,
     changeEmail,
-    changePhone
+    changePhone,
+    changeId
   }

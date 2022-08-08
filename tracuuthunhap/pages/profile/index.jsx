@@ -13,11 +13,18 @@ const Profile = (props) =>{
   const [openModal, setOpenModal] = useState(false)
   const [openModalChangeEmail, setOpenModalChangeEmail] = useState(false)
   const [openModalChangePhone, setOpenModalChangePhone] = useState(false)
+  const [openModalChangeId, setOpenModalChangeId] = useState(false)
   const [data, setData] = useState()
   const [rToken, setrToken] = useState()
   const [emailField, setEmailField] = useState([
     {
       name: ['email'],
+      value: '',
+    },
+  ])
+  const [idField, setIdField] = useState([
+    {
+      name: ['id'],
       value: '',
     },
   ])
@@ -38,6 +45,10 @@ const Profile = (props) =>{
 
   function toogleModalFormChangePhone(){
     setOpenModalChangePhone(!openModalChangePhone)
+  }
+
+  function toogleModalFormChangeId(){
+    setOpenModalChangeId(!openModalChangeId)
   }
 
   useEffect(()=>{
@@ -73,6 +84,11 @@ const Profile = (props) =>{
           value: res.data.result.recordset[0].EMAILNV
         }]
         setEmailField(newField)
+        const newIdField = [{
+          name: ['id'],
+          value: res.data.result.recordset[0].TENDANGNHAPNV
+        }]
+        setIdField(newIdField)
         return(result)
       })
       .catch(function (error) {
@@ -108,8 +124,25 @@ const Profile = (props) =>{
     return await axios
     .post('http://localhost:3001/user/changeEmail', {token: rToken, emailNew: data.emailNew })
     .then((res) => {
-      toast.success('Cập nhật Email thành công! Vui lòng đăng nhập lại')
+      toast.success('Cập nhật Email thành công!')
       setOpenModalChangeEmail(!openModalChangeEmail)
+      const result = {
+        status: res.data.status,
+        data: res.data.message,
+      }
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error.response)
+    })
+  }
+
+  async function submitChangeId(data){
+    return await axios
+    .post('http://localhost:3001/user/changeId', {token: rToken, idNew: data.idNew })
+    .then((res) => {
+      toast.success('Cập nhật tài khoản thành công! Vui lòng đăng nhập lại')
+      setOpenModalChangeId(!openModalChangeId)
       logout()
       const result = {
         status: res.data.status,
@@ -150,11 +183,12 @@ const Profile = (props) =>{
       <VStack>
         <Text fontSize={{md:"2xl", lg:'2xl', sm:'xl'}} fontWeight="bold" marginBottom={"2rem"} color ={"#38b2ac"}>Trang thông tin cá nhân</Text>
           <Descriptions  layout="vertical" bordered>
+            <Descriptions.Item label="Tài khoản đăng nhập"><strong>{data?.TENDANGNHAPNV}</strong>{' '}<Button onClick={toogleModalFormChangeId} type="link">Cập nhật</Button></Descriptions.Item>
             <Descriptions.Item label="Mã nhân viên"><strong>{data?.MANV}</strong></Descriptions.Item>
             <Descriptions.Item label="Họ và Tên"><strong>{data?.HOTEN}</strong></Descriptions.Item>
             <Descriptions.Item label="Đơn vị"><strong>{data?.TENDONVI}</strong></Descriptions.Item>
-            <Descriptions.Item label="Điện thoại"><strong>{data?.DIENTHOAINV}</strong>{'    '}<Button onClick={toogleModalFormChangePhone} type="link">Cập nhật điện thoại</Button></Descriptions.Item>
-            <Descriptions.Item label="Email"><strong>{data?.EMAILNV}</strong>{'    '}<Button onClick={toogleModalFormChangeEmail} type="link">Cập nhật email</Button></Descriptions.Item>
+            <Descriptions.Item label="Điện thoại"><strong>{data?.DIENTHOAINV}</strong>{' '}<Button onClick={toogleModalFormChangePhone} type="link">Cập nhật</Button></Descriptions.Item>
+            <Descriptions.Item label="Email"><strong>{data?.EMAILNV}</strong>{' '}<Button onClick={toogleModalFormChangeEmail} type="link">Cập nhật</Button></Descriptions.Item>
           </Descriptions>
           <Button type="primary" onClick={toogleModalForm}>Đổi mật khẩu</Button>
       </VStack>
@@ -210,6 +244,54 @@ const Profile = (props) =>{
           </HStack>
         </Form>
       </Modal>
+      {/* Modal đổi Id */}
+      <Modal
+        visible={openModalChangeId}
+        title="Cập nhật tài khoản đăng nhập"
+        // onOk={submitChangeEmail}
+        onCancel={toogleModalFormChangeId}
+        footer={null}
+      >
+      <Form
+          name="basic"
+          fields={idField}
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 20,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
+          onFinish={submitChangeId}
+        >
+          <Form.Item
+            label="Tài khoản hiện tại: "
+            name="id"
+          >
+            <Input  readOnly/>
+          </Form.Item>
+
+          <Form.Item
+            label="Tài khoản mới: "
+            name="idNew"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập tài khoản mới!'
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <HStack justifyContent="end">
+            <Button key="back" onClick={toogleModalFormChangeId}>Thoát</Button>
+            <Button type="primary"  htmlType="submit" danger>Cập nhật</Button>
+          </HStack>
+        </Form>
+      </Modal>
 
       {/* Modal đổi email */}
       <Modal
@@ -256,11 +338,11 @@ const Profile = (props) =>{
               },
             ]}
           >
-            <Input  readOnly/>
+            <Input />
           </Form.Item>
           <HStack justifyContent="end">
             <Button key="back" onClick={toogleModalFormChangeEmail}>Thoát</Button>
-            <Button type="primary"  htmlType="submit" onClick={submitChangeEmail} danger>Cập nhật</Button>
+            <Button type="primary"  htmlType="submit" danger>Cập nhật</Button>
           </HStack>
         </Form>
       </Modal>
@@ -306,7 +388,7 @@ const Profile = (props) =>{
           </Form.Item>
           <HStack justifyContent="end">
             <Button key="back" onClick={toogleModalFormChangePhone}>Thoát</Button>
-            <Button type="primary"  htmlType="submit" onClick={submitChangeEmail}>Cập nhật</Button>
+            <Button type="primary"  htmlType="submit" >Cập nhật</Button>
           </HStack>
         </Form>
     

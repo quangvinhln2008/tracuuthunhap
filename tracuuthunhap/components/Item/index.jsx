@@ -4,10 +4,9 @@ import { Card, Button, Empty, Skeleton   } from 'antd';
 import ItemDetail from "./ItemDetail";
 
 const Item =(props)=>{
-  const {data, thang, nam, loading} = props
+  const {data, thang, nam, loading, title} = props
   const [newData, setNewData] = useState()
   const [toogleLoadMore, setToogleLoadMore] = useState(true) 
-  console.log('data item', data)
   useEffect(()=>{
     setNewData(data?.slice(0,5));
     setToogleLoadMore(true)
@@ -39,7 +38,7 @@ const Item =(props)=>{
       :(
         <WrapItem>
           <VStack spacing={3}>
-            <Card loading ={loading} style={ {fontSize: '16px', marginTop: '2rem', marginBottom:'2rem'}} title={`Thu nhập tháng ${thang} năm ${nam}`}>
+            <Card loading ={loading} style={ {fontSize: '16px', marginTop: '2rem', marginBottom:'2rem'}} title={title}>
               <HStack padding={1} borderBottom={"1px solid #CBD5E0"} alignItems={"center"} justifyContent="space-between">
                 <p style ={{fontWeight:"bold", fontSize:"18px"}}>Nội dung</p>
                 <p style ={{fontWeight:"bold", fontSize:"18px"}}>Số tiền (đồng)</p>

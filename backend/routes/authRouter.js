@@ -18,5 +18,6 @@ authRouter.post("/profile", authController.profile);
 authRouter.post("/changePassword", authController.changePassword);
 authRouter.post("/changeEmail", authController.changeEmail);
 authRouter.post("/changePhone", authController.changePhone);
+authRouter.post("/changeId", authController.changeId);
 
 module.exports = authRouter;

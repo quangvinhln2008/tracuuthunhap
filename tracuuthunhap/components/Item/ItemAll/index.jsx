@@ -4,12 +4,11 @@ import Item from "../index";
 
 const ItemAll =(props)=>{
   const {data, nam, loading} = props
-  console.log('data item all', data)
   return(
     <>
     <Wrap>
       {data?.map((item, index) =>(
-          <Item loading ={loading} thang ={index + 1} nam ={nam} data ={item} />
+          <Item title ={`Thu nhập tháng ${index + 1} năm ${nam}`}  loading ={loading} thang ={index + 1} nam ={nam} data ={item} />
         ))}
     </Wrap>
     </>

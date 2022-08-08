@@ -19,6 +19,23 @@ async function tracuuthunhapthang(req, res){
         });
       });
 }
+async function tracuuthueTNCN(req, res){
+  const pool = await poolPromise
+  const manv = req.body.manv
+  const namBK = req.body.namBK
+  await pool.request()
+    .input('MANV',  manv)
+    .input('NAMBK',  namBK)
+    .execute('sp_TracuuThueTNCN', (err, result)=>{
+      if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+        res.status(200).send({
+          result
+        });
+      });
+}
 async function contact(req, res){
   const pool = await poolPromise
   const manv = req.body.manv
@@ -45,13 +62,8 @@ async function contact(req, res){
       });
 }
 
-
-async function tracuuthuetncn(req, res){
-
-}
-
 module.exports = {
   tracuuthunhapthang,
-  tracuuthuetncn,
+  tracuuthueTNCN,
   contact
 } 
