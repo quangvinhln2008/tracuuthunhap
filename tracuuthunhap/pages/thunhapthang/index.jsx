@@ -8,19 +8,20 @@ import styles from './index.module.css'
 import ItemAll from "../../components/Item/ItemAll";
 const { Option } = Select;
 
-
 const ThuNhapThang = () =>{
   const [data, setData] = useState()
   const [thangBK, setThangBK] = useState()
   const [namBK, setNamBK] = useState()
   const [loading, setLoading] = useState(false);
   const [maNV, setMaNV] = useState('')
+  const [tenNV, setTenNV] = useState('')
   const today = new Date();
   const defaultYear = today.getFullYear()
   const defaultMonth = today.getMonth()
   
   useEffect(()=>{
     setMaNV(window.localStorage.getItem('idTracuu'))
+    setTenNV(window.localStorage.getItem('fullNameTracuu'))
   }, [])
 
   function handleChangeThang (value)  {
@@ -95,6 +96,7 @@ const ThuNhapThang = () =>{
           </HStack>
           <Button type="primary" onClick={loadThuNhapThang}>Lọc dữ liệu</Button>  
         </HStack>
+        <Text color={"teal"} fontSize={{lg:"2xl", md:"2xl", sm:"sm"}}>{tenNV} - {maNV}</Text>
         {data?.length === 1 ?
           (<Wrap justify='center'>
             <Item title ={`Thu nhập tháng ${thangBK} năm ${namBK}`} loading ={loading} thang ={thangBK} nam ={namBK} data ={data[0]} />

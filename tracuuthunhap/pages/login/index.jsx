@@ -63,9 +63,10 @@ const Login = () => {
           window.localStorage.setItem('emailTracuu', data.email)
           window.localStorage.setItem('passwordTracuu', data.password)
           window.localStorage.setItem('rememberTracuu', JSON.stringify(data.remember))
-          window.localStorage.setItem('rememberTracuu', JSON.stringify(data.remember))
+        }else{
+          window.localStorage.setItem('fullNameTracuu', res.data.userName)
+          window.localStorage.setItem('rTokenTracuu', res.data.accessToken)
         }
-        
         router.push('/thunhapthang')
         return(result)
       })
@@ -77,8 +78,6 @@ const Login = () => {
       toast.error('Vui lòng nhập lại mã Captcha.')
     }
   }
-  useEffect(() => {
-  }, [])
 
   return (
     <div className={styles.container}>
