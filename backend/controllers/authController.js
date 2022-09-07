@@ -3,43 +3,47 @@ const helper = require('../ultility/helper');
 const jwt = require("jsonwebtoken");
 
 async function signin(req, res) {
-  const email = req.body.email
-  const password = req.body.password
-  const pool = await poolPromise
-  await pool.request()
-  .input('EMAIL', sql.VarChar, email)
-  .query('SELECT * FROM MEMBER WHERE ID = @EMAIL', (err, user)=>{
-    if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-    if (user.recordset.length===0) {
-    
-        return res.status(404).send({ message: "Tên đăng nhập không đúng." });
-      }
-    var passwordIsValid = user?.recordset[0]?.PASSWORD === helper.hashPassword(req.body.password) ? true : false;
+  try{
+    const email = req.body.email
+    const password = req.body.password
+    const pool = await poolPromise
+    await pool.request()
+    .input('EMAIL', sql.VarChar, email)
+    .query('SELECT * FROM MEMBER WHERE ID = @EMAIL', (err, user)=>{
+      if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+      if (user.recordset.length===0) {
+      
+          return res.status(404).send({ message: "Tên đăng nhập không đúng." });
+        }
+      var passwordIsValid = user?.recordset[0]?.PASSWORD === helper.hashPassword(req.body.password) ? true : false;
 
-    if (!passwordIsValid) {
-      return res.status(401).send({
-        accessToken: null,
-        message: "Mật khẩu không đúng!"
-      });
-    }
-    // res.status(200).send(user)
-    if(user.recordset.length!==0){
-      var token = jwt.sign({ email: user?.recordset[0]?.EMAIL, manv: user?.recordset[0]?.MEMBERID}, 'tracuu', {
-        expiresIn: 86400 // 24 hours
-      });
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Mật khẩu không đúng!"
+        });
+      }
+      // res.status(200).send(user)
+      if(user.recordset.length!==0){
+        var token = jwt.sign({ email: user?.recordset[0]?.EMAIL, manv: user?.recordset[0]?.MEMBERID}, 'tracuu', {
+          expiresIn: 86400 // 24 hours
+        });
 
-      res.status(200).send({
-        id: user.recordset[0]?.MEMBERID,
-        userName: user.recordset[0]?.MEMBERNAME,
-        email: user.recordset[0]?.EMAIL,
-        roles: user.recordset[0]?.ROLE.trim(),
-        accessToken: token
-      });
-    }
-  })
+        res.status(200).send({
+          id: user.recordset[0]?.MEMBERID,
+          userName: user.recordset[0]?.MEMBERNAME,
+          email: user.recordset[0]?.EMAIL,
+          roles: user.recordset[0]?.ROLE.trim(),
+          accessToken: token
+        });
+      }
+    })
+  }catch(error){
+    res.status(500).send(error.message)
+  }
 };
 
   async function profile(req, res){

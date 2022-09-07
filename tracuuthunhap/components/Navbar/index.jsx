@@ -43,7 +43,7 @@ const Navbar = (props) =>{
     };
   }
   const items = [
-    getItem(<Link href={'/'}><a onClick={() => router.push('/') }>Home</a></Link>, '1', <HomeOutlined />),
+    // getItem(<Link href={'/'}><a onClick={() => router.push('/') }>Home</a></Link>, '1', <HomeOutlined />),
     getItem('Tra cứu', 'sub1', <AppstoreOutlined />, [
       getItem(<Link href={'/thunhapthang'}><a onClick={() => router.push('/thunhapthang') }>Thu nhập tháng</a></Link>, '2', <AccountBookOutlined />),
       getItem(<Link href={'/thuetncn'}><a onClick={() => router.push('/thuetncn') }>Thuế TNCN</a></Link>, '3', <VideoCameraOutlined />), 
