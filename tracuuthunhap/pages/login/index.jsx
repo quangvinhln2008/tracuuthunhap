@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -172,6 +173,7 @@ const Login = () => {
                   Đăng nhập
                 </Button>
                 <Button onClick={toogleModalFormContact} type="link">Liên hệ kỹ thuật</Button>
+                <Link href={'/help'}><a onClick={() => router.push('/help') }>Hướng dẫn sử dụng</a></Link>
               </VStack>
             </Form>
           </VStack>

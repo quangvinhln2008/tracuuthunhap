@@ -9,9 +9,10 @@ import {
   SettingOutlined,
   LogoutOutlined,
   AccountBookOutlined,
-  HomeOutlined
+  HomeOutlined,
+  QuestionCircleOutlined
 } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { Divider, Layout, Menu } from 'antd';
 import styles from './index.module.css'
 
 const {Sider } = Layout;
@@ -49,8 +50,8 @@ const Navbar = (props) =>{
       getItem(<Link href={'/thuetncn'}><a onClick={() => router.push('/thuetncn') }>Thuế TNCN</a></Link>, '3', <VideoCameraOutlined />), 
     ]),
     getItem('Cài đặt', 'sub2', <SettingOutlined  />, [
-      getItem(<Link href={'/profile'}><a onClick={() => router.push('/profile') }>Trang cá nhân</a></Link>, '4', <UserOutlined />),
-      getItem(<a onClick={logout }>Đăng xuất</a>, '5', <LogoutOutlined />), 
+      getItem(<Link href={'/profile'}><a onClick={() => router.push('/profile') }>Trang cá nhân</a></Link>, '5', <UserOutlined />),
+      getItem(<a onClick={logout }>Đăng xuất</a>, '6', <LogoutOutlined />), 
     ]),
   ];
 
@@ -74,6 +75,8 @@ const Navbar = (props) =>{
       />
       <div className={styles.version}>
         <Text>Version: 1.0.0</Text>
+        <Divider/>
+        <Link href={'/help'}><a onClick={() => router.push('/help') }>Hướng dẫn sử dụng</a></Link>
       </div>
   </Sider>
   )

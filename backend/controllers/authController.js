@@ -175,7 +175,15 @@ async function signin(req, res) {
           });
         });
   }
-  
+  function getFilePdf (req, res) {
+    try {
+        res.contentType("application/pdf");
+        res.sendFile(path.join(__dirname + `HDSD.pdf`))
+
+    } catch (error) {
+      ErrorHandler(res, 500, error.message)
+    }
+  }
 
   module.exports = {
     signin,
@@ -183,5 +191,6 @@ async function signin(req, res) {
     changePassword,
     changeEmail,
     changePhone,
-    changeId
+    changeId,
+    getFilePdf
   }

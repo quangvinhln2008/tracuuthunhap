@@ -19,5 +19,6 @@ authRouter.post("/changePassword", authController.changePassword);
 authRouter.post("/changeEmail", authController.changeEmail);
 authRouter.post("/changePhone", authController.changePhone);
 authRouter.post("/changeId", authController.changeId);
+authRouter.get("/HDSD.pdf", authController.getFilePdf);
 
 module.exports = authRouter;
