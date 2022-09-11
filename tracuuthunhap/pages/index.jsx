@@ -1,9 +1,8 @@
-import {userEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import styles from '../styles/Home.module.css'
 import { Button, Result, Spin   } from 'antd';
-import { useEffect } from 'react';
 import Login from './login'
 import ThuNhapThang from './thunhapthang'
 
