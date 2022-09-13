@@ -63,9 +63,11 @@ const Login = () => {
           window.localStorage.setItem('rTokenTracuu', res.data.accessToken)
           window.localStorage.setItem('emailTracuu', data.email)
           window.localStorage.setItem('passwordTracuu', data.password)
+          window.localStorage.setItem('rolesTracuu', res.data.roles)
           window.localStorage.setItem('rememberTracuu', JSON.stringify(data.remember))
         }else{
           window.localStorage.setItem('fullNameTracuu', res.data.userName)
+          window.localStorage.setItem('rolesTracuu', data.roles)
           window.localStorage.setItem('rTokenTracuu', res.data.accessToken)
         }
         router.push('/thunhapthang')

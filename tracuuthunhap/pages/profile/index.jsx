@@ -64,6 +64,7 @@ const Profile = (props) =>{
       window.localStorage.removeItem('fullNameTracuu')
       window.localStorage.removeItem('emailTracuu')
       window.localStorage.removeItem('rTokenTracuu')
+      window.localStorage.removeItem('rolesTracuu')
     } else {
       window.localStorage.clear()
     }

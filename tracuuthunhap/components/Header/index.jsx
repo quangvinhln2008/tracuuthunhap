@@ -95,8 +95,12 @@ const HeaderApp = (props) => {
                 Đổi mật khẩu
                 </Breadcrumb.Item>
               }
-               {pathname==='/profile' && <Breadcrumb.Item fontSize="18px">
+              {pathname==='/profile' && <Breadcrumb.Item fontSize="18px">
                 Trang cá nhân
+                </Breadcrumb.Item>
+              }
+              {pathname==='/employees' && <Breadcrumb.Item fontSize="18px">
+                Nhân viên
                 </Breadcrumb.Item>
               }
             </Breadcrumb>}

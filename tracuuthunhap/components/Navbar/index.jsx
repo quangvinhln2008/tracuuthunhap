@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Link from 'next/link'
 import {Text} from '@chakra-ui/react'
 import { useRouter } from 'next/router'
@@ -10,7 +10,8 @@ import {
   LogoutOutlined,
   AccountBookOutlined,
   HomeOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
+  BarChartOutlined
 } from '@ant-design/icons';
 import { Divider, Layout, Menu } from 'antd';
 import styles from './index.module.css'
@@ -19,7 +20,12 @@ const {Sider } = Layout;
 
 const Navbar = (props) =>{
   const {collapsed} = props
+  const [role, setRole] = useState('user')
   const router = useRouter()
+  
+  useEffect(()=>{
+    setRole(window.localStorage.getItem('rolesTracuu'))
+    }, []);
 
   function logout(){
     const isRememberMe = window.localStorage.getItem('rememberTracuu')
@@ -29,6 +35,7 @@ const Navbar = (props) =>{
       window.localStorage.removeItem('fullNameTracuu')
       window.localStorage.removeItem('emailTracuu')
       window.localStorage.removeItem('rTokenTracuu')
+      window.localStorage.removeItem('rolesTracuu')
     } else {
       window.localStorage.clear()
     }
@@ -53,6 +60,9 @@ const Navbar = (props) =>{
       getItem(<Link href={'/profile'}><a onClick={() => router.push('/profile') }>Trang cá nhân</a></Link>, '5', <UserOutlined />),
       getItem(<a onClick={logout }>Đăng xuất</a>, '6', <LogoutOutlined />), 
     ]),
+    role.toLowerCase() === 'admin' && getItem('Quản trị', 'sub3', <BarChartOutlined />, [
+      getItem(<Link href={'/employees'}><a onClick={() => router.push('/employees') }>Nhân viên</a></Link>, '7', <UserOutlined />),
+    ]), 
   ];
 
   return(

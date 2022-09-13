@@ -28,7 +28,7 @@ async function signin(req, res) {
       }
       // res.status(200).send(user)
       if(user.recordset.length!==0){
-        var token = jwt.sign({ email: user?.recordset[0]?.EMAIL, manv: user?.recordset[0]?.MEMBERID}, 'tracuu', {
+        var token = jwt.sign({ email: user?.recordset[0]?.EMAIL, manv: user?.recordset[0]?.MEMBERID, roles: user?.recordset[0]?.ROLE}, 'tracuu', {
           expiresIn: 86400 // 24 hours
         });
 
@@ -46,29 +46,6 @@ async function signin(req, res) {
   }
 };
 
-  async function profile(req, res){
-    const pool = await poolPromise
-    const token = req.body.token
-    var manv
-    jwt.verify(token, 'tracuu', (err, decoded) => {
-      if (err) {
-        return res.status(401).send({ message: "Unauthorized!" });
-      }
-      manv = decoded.manv;
-    });
-
-    await pool.request()
-      .input('MANV',  manv)
-      .execute('sp_LoadProfile', (err, result)=>{
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-          res.status(200).send({
-            result
-          });
-        });
-  }
   async function changePassword(req, res){
     const pool = await poolPromise
     const token = req.body.token
@@ -183,6 +160,29 @@ async function signin(req, res) {
     } catch (error) {
       ErrorHandler(res, 500, error.message)
     }
+  }
+  async function profile(req, res){
+    const pool = await poolPromise
+    const token = req.body.token
+    var manv
+    jwt.verify(token, 'tracuu', (err, decoded) => {
+      if (err) {
+        return res.status(401).send({ message: "Unauthorized!" });
+      }
+      manv = decoded.manv;
+    });
+
+    await pool.request()
+      .input('MANV',  manv)
+      .execute('sp_LoadProfile', (err, result)=>{
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          res.status(200).send({
+            result
+          });
+        });
   }
 
   module.exports = {

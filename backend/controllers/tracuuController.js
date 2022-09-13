@@ -1,4 +1,5 @@
 const {sql, poolPromise } = require('../config/db.js')
+const jwt = require("jsonwebtoken");
 
 async function tracuuthunhapthang(req, res){
   const pool = await poolPromise
@@ -62,8 +63,43 @@ async function contact(req, res){
       });
 }
 
+async function getEmployees(req, res){
+  try{
+    const pool = await poolPromise
+    const token = req.body.token
+    var manv
+    var roles
+    jwt.verify(token, 'tracuu', (err, decoded) => {
+      if (err) {
+        return res.status(401).send({ message: "Unauthorized!" });
+      }
+      manv = decoded.manv;
+      roles = decoded.roles;
+    });
+    
+    if(roles.toLowerCase().trim() === 'user'){
+      return res.status(500).send({
+        message: 'Không có quyền truy cập!'
+      })
+    }
+    await pool.request()
+      .execute('sp_LoadEmployees', (err, result)=>{
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          res.status(200).send({
+            result
+          });
+        });
+    }catch(error){
+      res.status(500).send(error.message)
+    }
+}
+
 module.exports = {
   tracuuthunhapthang,
   tracuuthueTNCN,
-  contact
+  contact,
+  getEmployees
 } 
