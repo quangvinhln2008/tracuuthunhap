@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React from 'react';
 import style from '../index.module.css'
-
+import { Donvi } from '../constant';
 const { Option } = Select;
 
 const layout = {
@@ -23,7 +23,8 @@ const tailLayout = {
 const EmployeesCreate =()=>{
   const [form] = Form.useForm();
   const router = useRouter()
-
+  
+ 
   const onFinish = (values) => {
     console.log(values);
   };
@@ -35,7 +36,7 @@ const EmployeesCreate =()=>{
   function backToList() {
     router.push("/employees")
   };
-  
+
   function onMaNvChange(value){
     form.setFieldsValue({
       EMAIL: value.target.value.toLowerCase() + '@ufm.edu.vn'
@@ -121,9 +122,7 @@ const EmployeesCreate =()=>{
             placeholder="Chọn đơn vị"
             allowClear
           >
-            <Option value="male">male</Option>
-            <Option value="female">female</Option>
-            <Option value="other">other</Option>
+            {Donvi}
           </Select>
         </Form.Item>
         <Form.Item
@@ -139,9 +138,7 @@ const EmployeesCreate =()=>{
             placeholder="Chọn ngạch nhân viên"
             allowClear
           >
-            <Option value="male">male</Option>
-            <Option value="female">female</Option>
-            <Option value="other">other</Option>
+            {Donvi}
           </Select>
       </Form.Item>
       
