@@ -80,7 +80,7 @@ const Navbar = (props) =>{
         theme="dark"
         mode="inline"
         defaultSelectedKeys = {['1']}
-        defaultOpenKeys={['sub1', 'sub2']}
+        defaultOpenKeys={['sub1', 'sub2', 'sub3']}
         items={items}
       />
       <div className={styles.version}>

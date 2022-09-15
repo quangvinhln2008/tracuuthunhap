@@ -103,6 +103,13 @@ const HeaderApp = (props) => {
                 Nhân viên
                 </Breadcrumb.Item>
               }
+              {pathname==='/employees/create' && <><Breadcrumb.Item fontSize="18px">
+                  <Link  href={'/employees'}>Nhân viên</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item fontSize="18px">
+                  Thêm mới nhân viên
+                  </Breadcrumb.Item></>
+              }
             </Breadcrumb>}
           </div>
           <div>

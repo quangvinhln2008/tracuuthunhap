@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect} from "react";
 import Head from 'next/head'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import { Button, Select, Space, Input, Table, Divider } from 'antd';
 import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import {HStack, VStack, Wrap, Text} from  '@chakra-ui/react';
@@ -11,6 +12,7 @@ const Employees = () =>{
   const [loading, setLoading] = useState(false);
   const [maNV, setMaNV] = useState('')
   const [rToken, setrToken] = useState()
+  const router = useRouter()
   let token
 
   useEffect(()=>{
@@ -20,6 +22,10 @@ const Employees = () =>{
   useEffect(()=>{
       loadEmployees();
   },[token])
+
+  function createEmployee(){  
+    router.push('/employees/create')
+  }
 
   async function loadEmployees(){
     return await axios
@@ -167,7 +173,7 @@ const Employees = () =>{
       </Head>
       <VStack justifyContent={"start"} alignItems="start">
       <Space align="left" style={{ marginBottom: 16 }}>
-        <Button type="primary" icon={<PlusCircleOutlined />}>
+        <Button onClick={createEmployee} type="primary" icon={<PlusCircleOutlined />}>
             Thêm mới
           </Button>
         </Space>
