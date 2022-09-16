@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import style from '../index.module.css'
-import { Donvi, NgachNV } from '../constant';
+import { Donvi, NgachNV } from '../../../constants/constant';
 const { Option } = Select;
 
 const layout = {
