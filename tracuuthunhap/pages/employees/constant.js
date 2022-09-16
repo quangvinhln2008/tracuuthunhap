@@ -4,6 +4,7 @@ const { Option } = Select;
 
 export  const Donvi =
 <>
+  <Option value="34">Hội đồng Trường</Option>
   <Option value="01">Ban Giám hiệu</Option>
   <Option value="02">Khoa Quản trị Kinh doanh</Option>
   <Option value="03">Khoa Marketing</Option>
