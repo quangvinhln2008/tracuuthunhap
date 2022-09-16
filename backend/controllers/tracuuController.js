@@ -97,9 +97,57 @@ async function getEmployees(req, res){
     }
 }
 
+async function createEmployees(req, res) {
+  try{
+    const token = req.body.token
+    const manv = req.body.manv
+    const holot = req.body.holot
+    const tennv = req.body.tennv
+    const email = req.body.email
+    const madonvi = req.body.madonvi
+    const mangach = req.body.mangach
+
+    //Check authorized
+    var roles
+    jwt.verify(token, 'tracuu', (err, decoded) => {
+      if (err) {
+        return res.status(401).send({ message: "Unauthorized!" });
+      }
+      roles = decoded.roles;
+    });
+    
+    if(roles.toLowerCase().trim() === 'user'){
+      return res.status(500).send({
+        message: 'Không có quyền truy cập!'
+      })
+    }
+
+    const pool = await poolPromise
+    await pool.request()
+    .input('MANV', manv)
+    .input('HOLOT', holot)
+    .input('TENNV', tennv)
+    .input('EMAILNV', email)
+    .input('MADONVI', madonvi)
+    .input('MANGACH',mangach)
+    .execute('sp_CreateEmployees', (err, result)=>{
+      if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+
+        return res.status(200).send({
+          result
+        });
+    })
+  }catch(error){
+    res.status(500).send(error.message)
+  }
+};
 module.exports = {
   tracuuthunhapthang,
   tracuuthueTNCN,
   contact,
-  getEmployees
+  getEmployees,
+  createEmployees
 } 

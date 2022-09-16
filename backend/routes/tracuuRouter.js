@@ -10,5 +10,6 @@ tracuuRouter.post("/thuetncn", tracuuController.tracuuthueTNCN);
 tracuuRouter.post("/contact", tracuuController.contact);
 
 tracuuRouter.post("/employees", tracuuController.getEmployees);
+tracuuRouter.post("/employees/create", tracuuController.createEmployees);
 
 module.exports = tracuuRouter;
