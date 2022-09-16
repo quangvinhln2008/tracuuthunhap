@@ -13,5 +13,6 @@ tracuuRouter.post("/employees", tracuuController.getEmployees);
 tracuuRouter.post("/employees/create", tracuuController.createEmployees);
 tracuuRouter.get("/employees/:id", tracuuController.getEmployeesById);
 tracuuRouter.post("/employees/update/:id", tracuuController.updateEmployees);
+tracuuRouter.post("/users", tracuuController.getUsers);
 
 module.exports = tracuuRouter;

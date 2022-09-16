@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from "react";
 import Head from 'next/head'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { Button, Select, Space, Input, Table, Divider } from 'antd';
+import { Button, Alert, Space, Input, Table, Divider, Spin } from 'antd';
 import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import {HStack, VStack, Wrap, Text} from  '@chakra-ui/react';
 import Link from "next/link";
@@ -10,9 +10,10 @@ import Link from "next/link";
 
 const Employees = () =>{
   const [data, setData] = useState()
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [maNV, setMaNV] = useState('')
   const [rToken, setrToken] = useState()
+
   const router = useRouter()
   let token
 
@@ -21,7 +22,9 @@ const Employees = () =>{
   },[]) 
 
   useEffect(()=>{
-      loadEmployees();
+    setTimeout(()=>{loadEmployees();}, 
+    500)  
+    
   },[token])
 
   function createEmployee(){  
@@ -41,6 +44,7 @@ const Employees = () =>{
           data: res.data.result.recordset,
         }
         setData(res.data.result.recordset)
+        setLoading(false)
         return(result)
       })
       .catch(function (error) {
@@ -183,7 +187,16 @@ const Employees = () =>{
           </Button>
         </Space>
         <Divider />
-        <Table columns={columns} dataSource={data} />
+        {loading ? <>
+          <Spin tip="Loading..." spinning={loading}>
+          <Alert
+            message="Đang lấy dữ liệu"
+            description="Vui lòng chờ trong giây lát."
+            type="info"
+          />
+        </Spin>
+        </> 
+          :<Table columns={columns} dataSource={data} />}
       </VStack>
     </> 
   )

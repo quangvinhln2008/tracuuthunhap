@@ -23,7 +23,6 @@ const HeaderApp = (props) => {
   }, [])
   
 
-
   function getItem(label, key, icon, children) {
     return {
       key,
@@ -116,7 +115,11 @@ const HeaderApp = (props) => {
             <Breadcrumb.Item fontSize="18px">
               Cập nhật nhân viên
               </Breadcrumb.Item></>
-          }
+              } 
+              {pathname==='/users' && <Breadcrumb.Item fontSize="18px">
+                User
+                </Breadcrumb.Item>
+              }
             </Breadcrumb>}
           </div>
           <div>

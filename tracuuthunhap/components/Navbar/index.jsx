@@ -11,6 +11,7 @@ import {
   AccountBookOutlined,
   HomeOutlined,
   QuestionCircleOutlined,
+  TeamOutlined,
   BarChartOutlined
 } from '@ant-design/icons';
 import { Divider, Layout, Menu } from 'antd';
@@ -60,8 +61,9 @@ const Navbar = (props) =>{
       getItem(<Link href={'/profile'}><a onClick={() => router.push('/profile') }>Trang cá nhân</a></Link>, '5', <UserOutlined />),
       getItem(<a onClick={logout }>Đăng xuất</a>, '6', <LogoutOutlined />), 
     ]),
-    role.toLowerCase() === 'admin' && getItem('Quản trị', 'sub3', <BarChartOutlined />, [
+    role?.toLowerCase() === 'admin' && getItem('Quản trị', 'sub3', <BarChartOutlined />, [
       getItem(<Link href={'/employees'}><a onClick={() => router.push('/employees') }>Nhân viên</a></Link>, '7', <UserOutlined />),
+      getItem(<Link href={'/users'}><a onClick={() => router.push('/users') }>User</a></Link>, '8', <TeamOutlined />),
     ]), 
   ];
 
