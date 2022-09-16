@@ -182,7 +182,7 @@ const Employees = () =>{
       </Head>
       <VStack justifyContent={"start"} alignItems="start">
       <Space align="left" style={{ marginBottom: 16 }}>
-        <Button onClick={createEmployee} type="primary" icon={<PlusCircleOutlined />}>
+        <Button disabled = {loading} onClick={createEmployee} type="primary" icon={<PlusCircleOutlined />}>
             Thêm mới
           </Button>
         </Space>
