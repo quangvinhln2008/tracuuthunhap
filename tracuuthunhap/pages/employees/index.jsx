@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { Button, Select, Space, Input, Table, Divider } from 'antd';
 import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import {HStack, VStack, Wrap, Text} from  '@chakra-ui/react';
+import Link from "next/link";
 
 
 const Employees = () =>{
@@ -25,6 +26,10 @@ const Employees = () =>{
 
   function createEmployee(){  
     router.push('/employees/create')
+  }
+
+  function onEditEmployees (id) {
+    router.push(`/employees/${id}`)
   }
 
   async function loadEmployees(){
@@ -158,7 +163,7 @@ const Employees = () =>{
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <a>Edit</a>
+          <a key={record.MANV} onClick= {() => {onEditEmployees(record.MANV)}}>Edit</a>
         </Space>
       ),
     },

@@ -51,7 +51,7 @@ const HeaderApp = (props) => {
       getItem(<a onClick={logout}>Đăng xuất</a>, '2', <LogoutOutlined />),
     ])
   ];
-
+  
   return (
     <>
        <Head>
@@ -110,6 +110,13 @@ const HeaderApp = (props) => {
                   Thêm mới nhân viên
                   </Breadcrumb.Item></>
               }
+              {pathname==='/employees/[id]' && <><Breadcrumb.Item fontSize="18px">
+              <Link  href={'/employees'}>Nhân viên</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item fontSize="18px">
+              Cập nhật nhân viên
+              </Breadcrumb.Item></>
+          }
             </Breadcrumb>}
           </div>
           <div>
